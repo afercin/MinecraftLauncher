@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RestService } from '../services/rest.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { RestService } from '../services/rest.service';
 })
 export class ConsoleComponent implements OnInit, OnDestroy {
     @ViewChild('scroll', { read: ElementRef }) public scroll: ElementRef<any> | undefined;
+    @Input() serverStatus: string = "Closed";
+    
     message: string = "";
     rawMessage: string = "";
     intervalId: any;
@@ -16,26 +18,21 @@ export class ConsoleComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.intervalId = setInterval(() => {
-            this.restService.getServerStatus().subscribe({
-                next: (res) => {
-                    var status = res["status"];
-                    if (status == "Ready" || status == "Starting")
-                        this.restService.getServerOutput().subscribe({
-                            next: (res) => {
-                                var newMessage = res["output"];
-                                if (newMessage != this.rawMessage) {
-                                    this.rawMessage = newMessage;
-                                    this.message = this.formatMessage(newMessage);
-                                    this.cdRef.detectChanges();
-                                    if (this.scroll != undefined)
-                                        this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight;
-                                }
-                            },
-                            error: (err) => console.error(`Request failed with error: ${err}`)
-                        })
-                },
-                error: (err) => console.error(`Request failed with error: ${err}`)
-            });
+            if (this.serverStatus == "Ready" || this.serverStatus == "Starting") {
+                this.restService.getServerOutput().subscribe({
+                    next: (res) => {
+                        var newMessage = res["output"];
+                        if (newMessage != this.rawMessage) {
+                            this.rawMessage = newMessage;
+                            this.message = this.formatMessage(newMessage);
+                            this.cdRef.detectChanges();
+                            if (this.scroll != undefined)
+                                this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight;
+                        }
+                    },
+                    error: (err) => console.error(`Request failed with error: ${err}`)
+                })
+            }
         }, 1000);
     }
 
