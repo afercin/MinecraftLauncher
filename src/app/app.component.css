@@ -1,0 +1,110 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+}
+
+video {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+video, .container {
+    position: absolute;
+    top: 0;
+}
+
+.area {
+    position: absolute;
+}
+
+.top {
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.top,
+.bottom,
+.image {
+    display: table-row;
+}
+
+.left,
+.right,
+.middle {
+    display: table-cell;
+    height: 64px;
+    width: 50%;
+}
+
+.left .image,
+.right .image,
+.middle .image,
+.bottom {
+    width: 353px;
+    height: 64px;
+    float: left;
+}
+
+.bottom {
+    bottom: 0;
+    right: 0;
+    background-image: url("../assets/images/BottomRight.png");
+}
+
+.left .image {
+    background-image: url("../assets/images/UpperLeft.png");
+}
+
+.middle .image {
+    background-image: url("../assets/images/UpperMid.png");
+}
+
+.right .image {
+    background-image: url("../assets/images/UpperRight.png");
+}
+
+.button,
+.clock {
+    display: flex;
+    align-items: center;
+}
+
+.button img {
+    height: 36px;
+    width: auto;
+}
+
+.bottom img,
+.left img,
+.right img {
+    margin-right: 7px;
+    float: left;
+}
+
+.bottom,
+.left .image,
+.middle .image,
+.right .image {
+    display: flex;
+    justify-content: center;
+}
+
+.middle .image {
+    align-items: center;
+}
+
+.bottom > * {
+    margin-top: 5px;
+    margin-right: 6px;
+    margin-left: 36px;
+}
+
+.left .button {
+    margin-right: 58px;
+}
+
+.right .clock {
+    margin-left: 58px;
+}

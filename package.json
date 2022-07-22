@@ -1,0 +1,81 @@
+{
+  "name": "crossgameapp",
+  "version": "0.0.0",
+  "main": "main.js",
+  "bin": "main.js",
+  "email": "afercin@gmail.com",
+  "author": "Adrián Fernández Cintado <afercin@gmail.com>",
+  "homepage": ".",
+  "description": "Crossgame web base app",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "electron": "ng build --configuration=development && APP_DEV=true electron .",
+    "dist": "ng build && electron-builder",
+    "dist_arm64": "ng build && electron-builder --arm64",
+    "dist_armhf": "ng build && electron-builder --armv7l"
+  },
+  "build": {
+    "appId": "crossgame",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "icon": "./release/assets/icons/linux/icon.png",
+      "category": "Utility"
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "./release/assets/icons/win32/icon.ico"
+    }
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~13.1.0",
+    "@angular/common": "~13.1.0",
+    "@angular/compiler": "~13.1.0",
+    "@angular/core": "~13.1.0",
+    "@angular/forms": "~13.1.0",
+    "@angular/platform-browser": "~13.1.0",
+    "@angular/platform-browser-dynamic": "~13.1.0",
+    "@angular/router": "~13.1.0",
+    "electron-localshortcut": "^3.2.1",
+    "properties-reader": "^2.2.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^13.1.4",
+    "@angular/cli": "~13.1.4",
+    "@angular/compiler-cli": "~13.1.0",
+    "@types/jasmine": "~3.10.0",
+    "@types/node": "^12.11.1",
+    "electron": "^16.0.7",
+    "electron-builder": "^23.0.3",
+    "electron-packager": "^15.4.0",
+    "jasmine-core": "~3.10.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "rxjs": "^7.5.5",
+    "typescript": "~4.5.2",
+    "zone.js": "^0.11.4"
+  }
+}

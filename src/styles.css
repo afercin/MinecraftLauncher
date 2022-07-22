@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+.info {
+    /*color:#9cdcfe;*/
+    color: #4FC1FF;
+}
+
+.warn {
+    color: #D7BA7D;
+}
+
+.error {
+    color: #D61121;
+}
+
+html,
+body {
+    min-height: 100vh;
+    height: auto;
+    margin: 0;
+    color: white;
+}
+
+body {
+    background-color: black;
+}
+
+p {
+    font-size: 1.25vw;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2vh;
+}
+
+img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
