@@ -15,7 +15,6 @@ export class ConsoleComponent implements OnInit, OnDestroy {
     constructor(private restService: RestService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-        this.message = "patata";
         this.intervalId = setInterval(() => {
             this.restService.getServerStatus().subscribe({
                 next: (res) => {
