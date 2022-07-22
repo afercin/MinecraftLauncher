@@ -9,7 +9,7 @@ import { RestService } from '../services/rest.service';
 export class ConsoleComponent implements OnInit, OnDestroy {
     @ViewChild('scroll', { read: ElementRef }) public scroll: ElementRef<any> | undefined;
     @Input() serverStatus: string = "Closed";
-    
+
     message: string = "";
     rawMessage: string = "";
     intervalId: any;
@@ -47,7 +47,7 @@ export class ConsoleComponent implements OnInit, OnDestroy {
             if      (line.indexOf("INFO") !== -1)  line = `<span class="info">${line}</span>`
             else if (line.indexOf("WARN") !== -1)  line = `<span class="warn">${line}</span>`
             else if (line.indexOf("ERROR") !== -1) line = `<span class="error">${line}</span>`
-            
+
             formattedMessage += `${line}<br/>`
         })
 

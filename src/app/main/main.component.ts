@@ -1,6 +1,4 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { IpcService } from '../services/ipc.service';
 import { RestService } from '../services/rest.service';
 
 @Component({
@@ -13,7 +11,7 @@ export class MainComponent implements OnInit, OnDestroy {
     serverStatus: string = "Closed";
     intervalId: any;
 
-    constructor(private cdRef: ChangeDetectorRef, private router: Router, private restService: RestService, private ipcService: IpcService) {
+    constructor(private cdRef: ChangeDetectorRef, private restService: RestService) {
     }
 
 
@@ -21,20 +19,21 @@ export class MainComponent implements OnInit, OnDestroy {
         this.intervalId = setInterval(() => {
             this.restService.getServerStatus().subscribe({
                 next: (res) => {
-                    this.serverStatus = res["status"];                    
+                    this.serverStatus = res["status"];
+                    if (this.serverStatus == "Closed")
+                        this.buttonText = "Start server"
                 },
                 error: (err) => console.error(`Request failed with error: ${err}`)
             });
         }, 1000)
-        
+
     }
 
     ngOnDestroy(): void {
         clearInterval(this.intervalId);
     }
-    
+
     toogleServer(): void {
-        this.buttonText = (this.buttonText == "Start server" ? "Close" : "Start") + " server";
 
     }
 }

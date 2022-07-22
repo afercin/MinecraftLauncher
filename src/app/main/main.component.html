@@ -1,2 +1,9 @@
-<button (click)="toogleServer()">{{buttonText}}</button>
-<app-console [serverStatus] = serverStatus></app-console>
+<div class="button area">
+    <button *ngIf="serverStatus == 'Closed' || serverStatus == 'Ready'"
+            (click)="toogleServer()">{{buttonText}}
+    </button>
+</div>
+
+<div class="console area">
+    <app-console [serverStatus] = serverStatus></app-console>    
+</div>

@@ -1,23 +1,11 @@
-.button_container,
-.col {
-    height: 10vh;
-}
-
-.button_container {
+.button {
     width: 100vw;
     margin-top: 45vh;
 }
 
-.col {
-    float: left;
-    margin-left: 5vh;
-    width: calc((100vw - 20vh) / 3);
-    border-radius: 30px;
-}
-
-.col>p {
-    text-align: center;
-    position: relative;
-    top: 50%;
-    color: white;
+.console {
+    position: absolute;
+    width: 100vw;
+    bottom: 0;
+    left: 0;
 }

@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { IpcService } from './services/ipc.service';
 import { RestService } from './services/rest.service';
 
 
@@ -11,7 +10,7 @@ import { RestService } from './services/rest.service';
 export class AppComponent implements OnInit {
     title = 'Kebab a ser Launcher';
 
-    constructor(private restService: RestService, private ipcService: IpcService, private cdRef: ChangeDetectorRef) {
+    constructor() {
     }
 
     ngOnInit(): void {

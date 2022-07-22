@@ -12,11 +12,10 @@ createWindow = async () => {
     }
     //Create app window
     appWin = new BrowserWindow({
-        width: 1920,
-        height: 1080,
-        title: "Cross Game",
+        width: 800,
+        height: 600,
+        title: "Kebab a ser launcher",
         icon: `${__dirname}src/assets/icons/${icons[process.platform]}`,
-        resizable: false,
         webPreferences: {
             contextIsolation: false,
             nodeIntegration: true
@@ -46,8 +45,4 @@ app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
-});
-
-app.on("before-input-event", (event, input) => {
-    console.log(input);
 });
