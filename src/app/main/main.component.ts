@@ -8,8 +8,10 @@ import { RestService } from '../services/rest.service';
 })
 export class MainComponent implements OnInit, OnDestroy {
     buttonText: string = "Start server";
-    serverStatus: string = "Closed";
+    serverStatus: string = "NaN";
     intervalId: any;
+    cpuUsage: any = "NaN";
+    ramUsage: any = "Nan";
 
     constructor(private cdRef: ChangeDetectorRef, private restService: RestService) {
     }
@@ -20,8 +22,10 @@ export class MainComponent implements OnInit, OnDestroy {
             this.restService.getServerStatus().subscribe({
                 next: (res) => {
                     this.serverStatus = res["status"];
-                    if (this.serverStatus == "Closed")
-                        this.buttonText = "Start server"
+                    this.cpuUsage = res["cpu"];
+                    this.ramUsage = res["ram"];
+                    if      (this.serverStatus == "Closed") this.buttonText = "Start server"
+                    else if (this.serverStatus == "Ready")  this.buttonText = "Close server"
                 },
                 error: (err) => console.error(`Request failed with error: ${err}`)
             });
@@ -33,7 +37,39 @@ export class MainComponent implements OnInit, OnDestroy {
         clearInterval(this.intervalId);
     }
 
-    toogleServer(): void {
+    getStatusColor(): string {
+        var color: string;
+        switch(this.serverStatus) {
+            case "Ready": color = "green"; break;
+            case "Closed": color = "gray"; break;
+            case "Clossing": color = "red"; break;
+            case "Starting": color = "yellow"; break;
+            default: color = "white"; break;
+        }
+        return color;
+    }
 
+    getPercentageColor(percentage: number): string {
+        var color: string = "red";
+        if      (percentage <= 60) color = "green"
+        else if (percentage <= 85) color = "yellow"
+        return color;
+    }
+
+    toogleServer(): void {
+        if (this.serverStatus == "Closed")
+            this.restService.startServer().subscribe({
+                next: (res) => {
+                    
+                },
+                error: (err) => console.error(`Request failed with error: ${err}`)
+            })
+        if (this.serverStatus == "Ready")
+            this.restService.stopServer().subscribe({
+                next: (res) => {
+                    
+                },
+                error: (err) => console.error(`Request failed with error: ${err}`)
+            })
     }
 }

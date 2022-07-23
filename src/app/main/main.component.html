@@ -1,7 +1,11 @@
-<div class="button area">
-    <button *ngIf="serverStatus == 'Closed' || serverStatus == 'Ready'"
-            (click)="toogleServer()">{{buttonText}}
-    </button>
+<div class="status area">
+    <p>Server status: <span [class]="getStatusColor()">{{ serverStatus }}</span></p>
+    <p>CPU: <span [class]="getPercentageColor(cpuUsage)">{{ cpuUsage }}% </span></p>
+    <p>RAM: <span [class]="getPercentageColor(ramUsage)">{{ ramUsage }}%</span></p>
+    <div *ngIf="serverStatus == 'Closed' || serverStatus == 'Ready'" class="blue custom_button">
+        {{ buttonText }}
+        <button class="button" (click)="toogleServer()"></button>
+    </div>
 </div>
 
 <div class="console area">
