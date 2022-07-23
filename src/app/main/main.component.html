@@ -1,6 +1,6 @@
 <div class="status area">
     <p>Server status: <span [class]="getStatusColor()">{{ serverStatus }}</span></p>
-    <p>CPU: <span [class]="getPercentageColor(cpuUsage)">{{ cpuUsage }}% </span></p>
+    <p>CPU:&nbsp; <span [class]="getPercentageColor(cpuUsage)">{{ cpuUsage }}% </span></p>
     <p>RAM: <span [class]="getPercentageColor(ramUsage)">{{ ramUsage }}%</span></p>
     <div *ngIf="serverStatus == 'Closed' || serverStatus == 'Ready'" class="blue custom_button">
         {{ buttonText }}
