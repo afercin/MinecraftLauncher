@@ -32,6 +32,14 @@ export class RestService {
         return this.http.post(`${this.endpoint}/server/command?command=${command}`, httpOptions);
     }
 
+    public getServerForgeVersion(): Observable<any> {
+        return this.http.get(`${this.endpoint}/server/forgeVersion`, httpOptions);
+    }
+
+    public getModList(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.endpoint}/server/mods/list`, httpOptions);
+    }
+
     public getServerOutput(): Observable<any> {
         return this.http.get(`${this.endpoint}/server/output`, httpOptions);
     }

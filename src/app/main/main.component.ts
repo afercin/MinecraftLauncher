@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { IpcService } from '../services/ipc.service';
 import { RestService } from '../services/rest.service';
 
 @Component({
@@ -8,16 +9,19 @@ import { RestService } from '../services/rest.service';
 })
 export class MainComponent implements OnInit, OnDestroy {
     buttonText: string = "Start server";
+    message: string = "";
     serverStatus: string = "NaN";
     intervalId: any;
     cpuUsage: any = "NaN";
     ramUsage: any = "Nan";
 
-    constructor(private cdRef: ChangeDetectorRef, private restService: RestService) {
+    constructor(private ipcService: IpcService, private restService: RestService) {
     }
 
 
     ngOnInit(): void {
+        this.checkMods();
+
         this.intervalId = setInterval(() => {
             this.restService.getServerStatus().subscribe({
                 next: (res) => {
@@ -35,6 +39,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         clearInterval(this.intervalId);
+    }
+
+    checkMods(): void {
+        this.restService.getModList().subscribe({
+            next: (res) => this.ipcService.send("check_mods", res),
+            error: (err) => console.error(`Request failed with error: ${err}`)
+        })
+        
     }
 
     getStatusColor(): string {

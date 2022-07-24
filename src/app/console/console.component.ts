@@ -9,8 +9,8 @@ import { RestService } from '../services/rest.service';
 export class ConsoleComponent implements OnInit, OnDestroy {
     @ViewChild('scroll', { read: ElementRef }) public scroll: ElementRef<any> | undefined;
     @Input() serverStatus: string = "Closed";
-
-    message: string = "";
+    @Input() message: string = "";
+    
     rawMessage: string = "";
     intervalId: any;
 
