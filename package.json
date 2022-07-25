@@ -13,7 +13,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "electron": "ng build --configuration=development && APP_DEV=true electron .",
+    "electron": "ng build --configuration=development && electron .",
     "dist": "ng build && electron-builder",
     "dist_arm64": "ng build && electron-builder --arm64",
     "dist_armhf": "ng build && electron-builder --armv7l"
@@ -56,8 +56,10 @@
     "@angular/platform-browser": "~13.1.0",
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
+    "download-file-sync": "^1.0.4",
     "electron-dl": "^3.3.1",
     "electron-localshortcut": "^3.2.1",
+    "electron-root-path": "^1.0.16",
     "properties-reader": "^2.2.0"
   },
   "devDependencies": {

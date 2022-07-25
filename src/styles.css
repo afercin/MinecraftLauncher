@@ -12,6 +12,10 @@
     color: #D61121;
 }
 
+.green {
+    color: chartreuse;
+}
+
 html,
 body {
     min-height: 100vh;
