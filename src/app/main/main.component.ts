@@ -22,45 +22,53 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.ipcService.on("get_mods", (event: any, modList: string[]) => {
-            console.log(modList);
-            this.localMods = modList;
+        this.ipcService.on("get_mods", (event: any, localList: string[]) => {
+            console.log(localList);
             this.restService.getModList().subscribe({
                 next: async (remoteList) => {
-                    for (var i = 0; i < remoteList.length; i++) {
-                        if (!this.localMods.includes(remoteList[i])) {                        
-                            this.downloaded = false;
-                            this.message += `Downloading ${remoteList[i]}...`;
-                            this.ipcService.send("download_mod", remoteList[i]);
-                            while (!this.downloaded) {
-                                await new Promise(r => setTimeout(r, 500));
-                                this.message += ".";
-                            }
-                            this.message += "<span class='green'> [ DONE ]</span><br/>";
-                        }
-                    }               
-                    this.message = "";
-                    this.intervalId = setInterval(() => {
-                        this.restService.getServerStatus().subscribe({
-                            next: (res) => {
-                                this.serverStatus = res["status"];
-                                this.cpuUsage = res["cpu"];
-                                this.ramUsage = res["ram"];
-                                if      (this.serverStatus == "Closed") this.buttonText = "Start server";
-                                else if (this.serverStatus == "Ready")  this.buttonText = "Close server";
-                            },
-                            error: (err) => console.error(`Request failed with error: ${err}`)
-                        });
-                    }, 1000)
+                    if (await this.checkMods(localList, remoteList)) {
+                        this.message = "";
+                        this.intervalId = setInterval(() => {
+                            this.restService.getServerStatus().subscribe({
+                                next: (res) => {
+                                    this.serverStatus = res["status"];
+                                    this.cpuUsage = res["cpu"];
+                                    this.ramUsage = res["ram"];
+                                    if      (this.serverStatus == "Closed") this.buttonText = "Start server";
+                                    else if (this.serverStatus == "Ready")  this.buttonText = "Close server";
+                                },
+                                error: (err) => console.error(`Request failed with error: ${err}`)
+                            });
+                        }, 1000);
+                    }
                 },
                 error: (err) => console.error(`Request failed with error: ${err}`)
             })
         });
 
         this.ipcService.on("download_mod", (event: any, downloaded: boolean) => this.downloaded = downloaded);
-
+        
         this.ipcService.send("get_mods");
+    }
 
+    async checkMods(localList: string[], remoteList: string[]): Promise<Boolean> {        
+        var repeat: boolean = false;
+        for (var i = 0; i < remoteList.length; i++) {
+            if (!localList.includes(remoteList[i])) {
+                repeat = true
+                this.downloaded = false;
+                this.message += `Downloading ${remoteList[i]}...`;
+                this.ipcService.send("download_mod", remoteList[i]);
+                while (!this.downloaded) {
+                    await new Promise(r => setTimeout(r, 500));
+                    this.message += ".";
+                }
+                this.message += "<span class='green'> [ DONE ]</span><br/>";
+            }
+        }
+        if (repeat)
+            this.ipcService.send("get_mods");
+        return !repeat;
     }
 
     ngOnDestroy(): void {

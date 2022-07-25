@@ -18,7 +18,7 @@ createWindow = async () => {
     }
     //Create app window
     appWin = new BrowserWindow({
-        width: 800,
+        width: 1066,
         height: 600,
         title: "Kebab a ser launcher",
         icon: `${__dirname}src/assets/icons/${icons[process.platform]}`,
@@ -28,11 +28,11 @@ createWindow = async () => {
         }
     });
 
-    session.defaultSession.on('will-download', (event, item, webContents) => {
+    session.defaultSession.on('will-download', (event, item) => {
         event.preventDefault()
         require('got')(item.getURL()).then((response) => {
-            console.log(`/${modsFolder}/${response.url.split("/")[8]}`);
-            //fs.writeFileSync(`/tmp/${response.url.split("/")[8]}`, response.body);
+            console.log(`${modsFolder}/${response.url.split("/")[8]}`);          
+            fs.writeFileSync(`${modsFolder}/${response.url.split("/")[8]}`, response.body);
             eventHandler.reply("download_mod", true);
         })
     })
@@ -60,7 +60,8 @@ ipcMain.on("get_mods", async (event, args) => {
             properties: ['openDirectory']
         });
         if (!response.cancelled) {
-            properties.set("MODS_FOLDER", response.filePaths);
+            modsFolder = response.filePaths;
+            properties.set("MODS_FOLDER", modsFolder);
             await properties.save(`${rootPath}/launcher.properties`, (err, data) => {
                 if (err)
                     console.log("error in write a properties file")
@@ -68,11 +69,14 @@ ipcMain.on("get_mods", async (event, args) => {
             })
         }
     }
-    event.reply("get_mods", []);
+    if (modsFolder === "") 
+        app.quit()
+    
+    event.reply("get_mods", fs.readdirSync(modsFolder));
 });
 
 ipcMain.on("download_mod", (event, mod) => {
-    eventHandler = event
+    eventHandler = event;
     download(
         BrowserWindow.getFocusedWindow(), 
         `http://10.0.0.3:5000/api/v1/server/mods/download/${mod}`);
