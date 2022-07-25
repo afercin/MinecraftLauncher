@@ -49,6 +49,7 @@ export class ConsoleComponent implements OnInit, OnDestroy {
                   || line.indexOf("ERROR") !== -1) line = `<span class="error">${line}</span>`
             else if (line.indexOf("INFO")  !== -1) line = `<span class="info">${line}</span>`
             else if (line.indexOf("WARN")  !== -1) line = `<span class="warn">${line}</span>`
+            else if (line.indexOf("at ")   !== -1) line = `<span class="error">${line}</span>`
 
             formattedMessage += `${line}<br/>`
         })

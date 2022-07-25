@@ -1,9 +1,9 @@
 const { app, ipcMain, BrowserWindow, session, dialog } = require("electron");
 const { download } = require("electron-dl");
 const fs = require('fs');
+const shell = require('electron').shell;
 var propertiesReader = require('properties-reader');
 var rootPath = require('electron-root-path').rootPath;
-
 
 const isDev = rootPath.indexOf("dev") !== -1;
 let appWin;
@@ -80,6 +80,10 @@ ipcMain.on("download_mod", (event, mod) => {
     download(
         BrowserWindow.getFocusedWindow(), 
         `http://10.0.0.3:5000/api/v1/server/mods/download/${mod}`);
+})
+
+ipcMain.on("open_url", (event, url) => {
+    shell.openExternal(url);
 })
 
 app.on("ready", createWindow);

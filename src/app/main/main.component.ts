@@ -110,4 +110,15 @@ export class MainComponent implements OnInit, OnDestroy {
                 error: (err) => console.error(`Request failed with error: ${err}`)
             })
     }
+
+    downloadForge(): void {
+        this.restService.getServerForgeVersion().subscribe({
+            next: (res) => {
+                var ForgeVersion = res["version"]
+                console.log(ForgeVersion);
+                this.ipcService.send("open_url", `https://maven.minecraftforge.net/net/minecraftforge/forge/${ForgeVersion}/forge-${ForgeVersion}-installer.jar`, "_blank")
+            },
+            error: (err) => console.error(`Request failed with error: ${err}`)
+        })
+    }
 }
