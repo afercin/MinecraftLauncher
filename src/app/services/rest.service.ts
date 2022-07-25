@@ -13,7 +13,7 @@ const httpOptions = {
 export class RestService {
     private endpoint: string;
     constructor(private http: HttpClient) {
-        this.endpoint = `http://10.0.0.3:5000/api/v1`
+        this.endpoint = `http://kebabaser.ddns.net:5000/api/v1`
     }
 
     public getServerStatus(): Observable<any> {

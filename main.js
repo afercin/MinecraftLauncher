@@ -79,7 +79,7 @@ ipcMain.on("download_mod", (event, mod) => {
     eventHandler = event;
     download(
         BrowserWindow.getFocusedWindow(), 
-        `http://10.0.0.3:5000/api/v1/server/mods/download/${mod}`);
+        `http://kebabaser.ddns.net:5000/api/v1/server/mods/download/${mod}`);
 })
 
 ipcMain.on("open_url", (event, url) => {
